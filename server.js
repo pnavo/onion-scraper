@@ -18,6 +18,18 @@ app.use(express.static(process.cwd() + '/public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+var databaseUri = "mongodb://localhost/scraper"
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useMongoClient: true
+  });
+}
+else {
+  mongoose.connect(databaseUri, {
+    useMongoClient: true
+  });
+}
+
 var db = mongoose.connection;
 db.on('error', function(err) {
   console.log('Mongoose Error: ', err);
